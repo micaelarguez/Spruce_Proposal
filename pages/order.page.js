@@ -19,13 +19,19 @@ get postCommentButton(){ return $('input.admin-order-comment-submit') }
 get createOrderButton(){ return $('input[type=submit]:not([data-testid])') }
 get existingContactField(){ return $('.css-1hwfws3:not(.select__value-container--is-multi)') }
 get cancelButton(){ return $('[type=reset]') }
+
 get gridTitle(){ return $('//div[text()="New Contact"]') }
 get gridTitle(){ return $('article h1') }
+get gridTitle(){ return $('#orderShowOrderCommentsIndex') }
+get gridTitleFees(){ return $('.oFLpz') }//ok
+get gridTitle(){ return $('//h2[text()="Incoming"]') }
+get gridTitle(){ return $('//h2[text()="Disbursed Transactions"]') }
+
 get addSellerTitle(){ return $('//div[text()="Seller"]') }
 get addSellerButton(){ return $('//div[text()="Add Seller"]')}
-get gridTitle(){ return $('#orderShowOrderCommentsIndex') }
+
 get addContactButton(){ return $('.hdvLzR') }
-get gridTitleFees(){ return $('.oFLpz') }
+
 get ordersTab() { return $('[title=Orders]') }
 get orderTabHeader() { return $('//div[text()="Orders"]') }
 //no deberian estar link de cada tab y page
@@ -65,8 +71,8 @@ get firstDocument(){ return $('tbody tr:first-child td:first-child') }
 get fundingCompleteButton(){ return $('[value="Funding Complete"]') }
 get disbursedTab(){ return $('nav ul li:first-child') }
 get createEditTab(){ return $('nav ul li:last-child') }
-get gridTitle(){ return $('//h2[text()="Disbursed Transactions"]') }
-get gridTitle(){ return $('//h2[text()="Incoming"]') }
+
+
 get generatePDFButton(){ return $('.cd-title .kDGzFZ') }
 get gridTitle(){ return $('//div[text()="Loan Costs"]') }
 get transactionType() { return $('.css-1hwfws3.select__value-container--has-value') }
@@ -209,7 +215,19 @@ async openFirstOrder() {
 async changeTab(tab) {
     await this.clickElement(await tab);
 }
+//repetidos
+async goToTab(tab) {
+    await super.clickElement(await tab);
+}
+  //repetidos
+  async switchTab(tab) {
+    await super.clickElement(tab);
+}
 
+ // repetidos
+ async switchTab(tab) {
+    await super.clickElement(await tab);
+}
 async selectTransactionCategoryAndCurativeGrade(category, grade) {
 
     await this.clickElement(await this.advancedSearchButton);
@@ -243,7 +261,7 @@ async selectTransactionCategoryAndCurativeGrade(category, grade) {
     await this.clickElement(await this.basicSearchButton);
     await expect(await this.advancedSearchButton).toBeDisplayed();
 }
-
+   //nop
     async validateOrderTabDashboard() {
 
     await expect(await this.orderTabHeader).toBeDisplayed();
@@ -256,17 +274,14 @@ async selectTransactionCategoryAndCurativeGrade(category, grade) {
 
 }
 
-async goToSearchReportAndTitleCommitmentBoard() {
+    async goToSearchReportAndTitleCommitmentBoard() {
 
     if (await this.createButton.isClickable()) {
-        await this.clickElement(await this.createButton);
-    }
+    await this.clickElement(await this.createButton);
+      }
     else {
-        await this.clickElement(await this.editSearchReportButton);
-    }
-}
-    async goToTab(tab) {
-        await super.clickElement(await tab);
+    await this.clickElement(await this.editSearchReportButton);
+       }
     }
 
     async goToAddParty(){
@@ -288,35 +303,26 @@ async goToSearchReportAndTitleCommitmentBoard() {
         await super.clickElement(this.addPortalDocument);
     }
 
-    //Actions
+    
     async uploadDocument() {
         await super.clickElement(this.uploadButton);
     }
 
- // Actions
+ 
     async addContact() {
         await super.clickElement(this.addContactButton);
     }
-    // Actions
+   
     async createContact() {
         await super.clickElement(this.saveContactButton);
     }
     async closeContactModal() {
         await super.clickElement(this.cancelButton);
     }
-    //repetidos
-    async switchTab(tab) {
-        await super.clickElement(tab);
-    }
-    // Actions
-    async switchTab(tab) {
-        await super.clickElement(await tab);
-    }
+  
+   
     //Actions
-    async openFirstQuote() {
-        await super.clickElement(await this.firstQuoteOnGrid);
-    }
-
+   
     async createNew(element) {
         await super.clickElement(await this.newButton);
         await super.clickElement(await element);
@@ -325,7 +331,7 @@ async goToSearchReportAndTitleCommitmentBoard() {
     async changeTab(tab) {
         await super.clickElement(await tab);
     }
-
+  
     async validateHeaderByText(element, tab) {
         await expect(await $(`//${element}[text()="${tab}"]`)).toBeDisplayed();
     }
@@ -365,8 +371,6 @@ async goToSearchReportAndTitleCommitmentBoard() {
         await expect(await this.finalizeButtons).toBeDisplayed({message:'Not displayed the finalize buttons'});
     }
 
-    async newOrder(){
-        
-    }
+
 }
 export default new OrderPage()

@@ -146,14 +146,17 @@ class QuotePage extends BasePage {
 
 
     
-//metodos a ver
+//metodos a ver repetidos
     async openFirstQuote() {
         await super.clickElement(await this.firstQuoteOnGrid);
     }
     async openFirstQuote() {
         await super.clickElement(await this.firstQuoteOnGrid);
     }
-
+    async openFirstQuote() {
+        await super.clickElement(await this.firstQuoteOnGrid);
+    }
+    
     async createNew(element) {
         await super.clickElement(await this.newButton);
         await super.clickElement(await element);
@@ -209,6 +212,7 @@ class QuotePage extends BasePage {
         const typeQuoteName = await this.typeQuotenName.getText();
         return typeQuoteName;
     }
+   
 
 
 }
