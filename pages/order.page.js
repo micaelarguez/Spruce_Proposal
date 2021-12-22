@@ -104,7 +104,7 @@ get bankruptcyForm(){ return $('//div[text()="Bankruptcy Information"]') }
 get submitChangesHeader(){ return $('//div[text()="Save or submit Search Report & Title Commitment"]') }
 get saveButtons(){ return $('//button[text()="Save"]') }
 get finalizeButtons(){ return $('//button[text()="Finalize"]') }
-get cancelOrderButton() { return $('.sc-gZMcBi.gpSpMI') }
+//get cancelOrderButton() { return $('.sc-gZMcBi.gpSpMI') } repetido
 get signingAppointment() { return $('div=Borrower Signing Appointment') }
 get feesTab() { return $('#lender-order-header-target [title="Fees"]') }
 get titleSummTab() { return $('#lender-order-header-target [title="Title Summary"]') }

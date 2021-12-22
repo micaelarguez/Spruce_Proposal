@@ -66,7 +66,7 @@ class QuotePage extends BasePage {
     //WebElements
     //lenders
     get createQuoteButton(){ return $('input[value="Create Quote"]') }//hay 2 ver cual selecciona
-    get cancelQuoteButton(){ return $('[title=Cancel]') }
+    get cancelQuoteButton(){ return $('[title=Cancel]') } //repetido es el mismo cancel 
     selectMenu(menuValue){return `.select__option=${menuValue}`}  
 
     // estos selectores son dinámicos hay que solicitar dataAtributes o dataid de testing para test robustos, estos no sirven

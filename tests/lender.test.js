@@ -10,7 +10,15 @@ const lenderData = {
   pass: process.env.LENDER_VENDOR_PASS,
   loginURL: process.env.LENDER_URL
 };
+const quoteProps = {
  
+  code: '33160',
+  transaction: 'Refinance',
+  amount: 500,
+  property: 500,
+  balance: 500,
+  price: 4555555
+};
 describe('Pinecone', () => {
   it('Testing lenders pages', async () => {
     //Lender Dashboard page
@@ -35,14 +43,15 @@ describe('Pinecone', () => {
     await expect(await QuotePage.pageTitle.getText()).toEqual("Create a new quote");
     await expect(await QuotePage.createQuoteButton).toBeDisplayed();
     await QuotePage.createNewQuote(quoteProps);
-    await OrderPage.clickElement(OrderPage.cancelOrderButton);
-    await OrderPage.clickElement(QuotePage.cancelQuoteButton);
+    await QuotePage.clickElement(QuotePage.cancelQuoteButton);
+   
 
     //Order Details Page - Overview
     await LenderPage.openFirstOrder();
     addStep(`Validate Order - Overview`);
     await expect(await OrderPage.orderTitle).toBeDisplayed();
     await expect(await OrderPage.signingAppointment.getText()).toContain("Signing Appointment");
+   
     //Order Details Page - Fees
     addStep(`Validate Order - Fees`);
     await OrderPage.goToTab(OrderPage.feesTab);
