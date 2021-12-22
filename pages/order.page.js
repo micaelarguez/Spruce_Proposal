@@ -41,7 +41,9 @@ get searchForFilesField() { return $('[placeholder="Search for files"]') }
 get nameSearchBar() { return $('[name=borrower]') }
 get addressSearchBar() { return $('[name=streetAddress]') }
 get unitSearchBar() { return $('[name=unit]') }
+
 get firstOrderOnGrid() { return $('tbody tr:first-child td a') }
+
 get advancedSearchButton() { return $('//button[text()="Advanced Search"]') }
 get basicSearchButton() { return $('//button[text()="Basic Search"]') }
 get curativeGrade() { return $('//div[text()="Curative Grade(s)"]/following-sibling::div//div[text()="Curative Grade(s)"]') }

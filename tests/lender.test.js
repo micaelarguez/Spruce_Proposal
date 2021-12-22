@@ -39,15 +39,15 @@ describe('Pinecone', () => {
 
     //Create New Quote page
     addStep(`Check creating quote page`);
-    await LenderPage.createNew(LenderPage.newQuote);
-    await expect(await QuotePage.pageTitle.getText()).toEqual("Create a new quote");
-    await expect(await QuotePage.createQuoteButton).toBeDisplayed();
+    // await LenderPage.createNew(LenderPage.newQuote);
+    // await expect(await QuotePage.pageTitle.getText()).toEqual("Create a new quote");
+    //await expect(await QuotePage.createQuoteButton).toBeDisplayed();
     await QuotePage.createNewQuote(quoteProps);
-    await QuotePage.clickElement(QuotePage.cancelQuoteButton);
-   
+    //agragar la validacion del titulo de la pagina siguiente.
+    await OrderPage.clickElement(OrderPage.ordersTab);
 
     //Order Details Page - Overview
-    await LenderPage.openFirstOrder();
+    await OrderPage.openFirstOrder();
     addStep(`Validate Order - Overview`);
     await expect(await OrderPage.orderTitle).toBeDisplayed();
     await expect(await OrderPage.signingAppointment.getText()).toContain("Signing Appointment");
@@ -57,15 +57,18 @@ describe('Pinecone', () => {
     await OrderPage.goToTab(OrderPage.feesTab);
     await expect(await OrderPage.gridTitle.getText()).toEqual("Fees");
     await expect(await OrderPage.totalsOnGrid).toBeDisplayed();
+    
     //Order Details Page - Title Summary
     addStep(`Validate Order - Title Summary`);
     await OrderPage.goToTab(OrderPage.titleSummTab);
     await expect(await OrdermPage.gridTitle.getText()).toEqual("Title Summary");
     await expect(await OrderPage.mortagesOnGrid).toBeDisplayed();
+    
     //Quotes List
     addStep(`Validate Quotes Tab`);
     await LenderPage.changeTab(LenderPage.quotesTab);
     await expect(await QuotePage.quotesSearchBar).toBeDisplayed();
+   
     //Quote Detail Page
     addStep(`Validate Quotes detail page`);
     await QuotePage.openFirstQuote();
