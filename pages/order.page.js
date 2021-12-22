@@ -25,7 +25,7 @@ get addSellerTitle(){ return $('//div[text()="Seller"]') }
 get addSellerButton(){ return $('//div[text()="Add Seller"]')}
 get gridTitle(){ return $('#orderShowOrderCommentsIndex') }
 get addContactButton(){ return $('.hdvLzR') }
-get gridTitle(){ return $('.oFLpz') }
+get gridTitleFees(){ return $('.oFLpz') }
 get ordersTab() { return $('[title=Orders]') }
 get orderTabHeader() { return $('//div[text()="Orders"]') }
 //no deberian estar link de cada tab y page

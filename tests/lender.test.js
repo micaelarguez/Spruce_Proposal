@@ -55,14 +55,14 @@ describe('Pinecone', () => {
     //Order Details Page - Fees
     addStep(`Validate Order - Fees`);
     await OrderPage.goToTab(OrderPage.feesTab);
-    await expect(await OrderPage.gridTitle.getText()).toEqual("Fees");
-    await expect(await OrderPage.totalsOnGrid).toBeDisplayed();
+    await expect(await OrderPage.gridTitleFees.getText()).toEqual("Fees");
+    //await expect(await OrderPage.totalsOnGrid).toBeDisplayed();
     
     //Order Details Page - Title Summary
     addStep(`Validate Order - Title Summary`);
     await OrderPage.goToTab(OrderPage.titleSummTab);
     await expect(await OrdermPage.gridTitle.getText()).toEqual("Title Summary");
-    await expect(await OrderPage.mortagesOnGrid).toBeDisplayed();
+   // await expect(await OrderPage.mortagesOnGrid).toBeDisplayed();
     
     //Quotes List
     addStep(`Validate Quotes Tab`);
