@@ -1,0 +1,203 @@
+version: 2.1
+
+orbs: 
+  slack: circleci/slack@4.5.1
+
+parameters:
+  run_ui_tests:
+    type: boolean
+    default: false
+  slack_channel:
+    type: string
+    default: 'test-notifications'
+  admin_url:
+    type: string
+    default: "https://preview1549.aes1.preview-deploys.dev.spruce.co/admin/sign_in"       
+  client_url:
+    type: string
+    default: "https://preview1549.aes1.preview-deploys.dev.spruce.co/clients/sign_in"     
+  lender_url:
+    type: string
+    default: "https://preview1549.aes1.preview-deploys.dev.spruce.co/lenders/sign_in"     
+  vendor_url:
+    type: string
+    default: "https://preview1549.aes1.preview-deploys.dev.spruce.co/vendors/sign_in"     
+
+jobs:
+  ui_test:
+    docker:
+      - image: webdriverio/selenium-standalone
+    environment:
+      ADMIN_URL: <<pipeline.parameters.admin_url>>          
+      CLIENT_URL: <<pipeline.parameters.client_url>>        
+      LENDER_URL: <<pipeline.parameters.lender_url>>        
+      VENDOR_URL: <<pipeline.parameters.vendor_url>>        
+    steps:
+      - checkout
+      - run:
+          name: Make Screenshots Directory
+          command: mkdir screenshots
+      - run:
+          name: Install Node Modules
+          command: npm install
+      - run:
+          name: Install Allure CLI
+          command: npm install -g allure-commandline
+          when: always
+      - run:
+          name: Test
+          command: npm run test
+      - store_artifacts:
+          path: screenshots
+      - run:
+          name: Generate Allure Report
+          command: allure generate --clean
+          when: always
+      - store_artifacts:
+          path: allure-report
+      - slack/notify:
+          event: fail
+          channel: << pipeline.parameters.slack_channel >>
+          custom: |
+            {
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "Pinecone Page Checker:   Failed :red_circle:",
+                    "emoji": true
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*CircleCI Job*: ${CIRCLE_JOB}"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Pinecone Portals*: Admin, Lender, Client, and Vendor "
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Project*: $CIRCLE_PROJECT_REPONAME"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Branch*: $CIRCLE_BRANCH"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Author*: $CIRCLE_USERNAME"
+                    }
+                  ],
+                  "accessory": {
+                    "type": "image",
+                    "image_url": "https://assets.brandfolder.com/otz5mn-bw4j2w-6jzqo8/original/circle-logo-badge-black.png",
+                    "alt_text": "CircleCI logo"
+                  }
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "View Job"
+                      },
+                      "url": "${CIRCLE_BUILD_URL}"
+                    }
+                  ]
+                }
+              ]
+            }
+      - slack/notify:
+          event: pass
+          channel: << pipeline.parameters.slack_channel >>
+          custom: |
+            {
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "Pinecone Page Checker:   Succeeded :white_check_mark:",
+                    "emoji": true
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*CircleCI Job*: ${CIRCLE_JOB}"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Pinecone Portals*: Admin, Lender, Client, and Vendor "
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Project*: $CIRCLE_PROJECT_REPONAME"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Branch*: $CIRCLE_BRANCH"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Author*: $CIRCLE_USERNAME"
+                    }
+                  ],
+                  "accessory": {
+                    "type": "image",
+                    "image_url": "https://assets.brandfolder.com/otz5mn-bw4j2w-6jzqo8/original/circle-logo-badge-black.png",
+                    "alt_text": "CircleCI logo"
+                  }
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "View Job"
+                      },
+                      "url": "${CIRCLE_BUILD_URL}"
+                    }
+                  ]
+                }
+              ]
+            }
+
+workflows:
+  version: 2
+  test:
+    when: << pipeline.parameters.run_ui_tests >>
+    jobs:
+      - ui_test:
+          context: circleci-testing-slack-notification

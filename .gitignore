@@ -1,0 +1,11 @@
+# Allure reports 
+allure-results
+
+# Dependency directories
+node_modules/
+jspm_packages/
+screenshots/
+
+# dotenv environment variables file
+.env
+.env.test
